@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chi tiết sản phẩm</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/tmdt.css}">
+</head>
+<body class="shop-body theme-tmdt">
+<div th:replace="~{fragments/navigation :: shopNav}"></div>
+
+<div class="container py-4">
+    <div th:if="${product != null}" class="row g-4">
+        <div class="col-md-5">
+            <div class="tmdt-panel overflow-hidden rounded">
+                <div class="ratio ratio-4x3 bg-dark bg-opacity-25">
+                    <img th:if="${product.imageUrl != null && !product.imageUrl.isBlank()}"
+                         th:src="${product.imageUrl}" class="object-fit-cover w-100 h-100" alt="">
+                    <div th:unless="${product.imageUrl != null && !product.imageUrl.isBlank()}"
+                         class="d-flex align-items-center justify-content-center text-muted small">Chưa có ảnh</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-7">
+            <h1 class="h4" th:text="${product.name}"></h1>
+            <p class="fs-5 text-tmdt-accent fw-semibold mb-2"
+               th:text="${#numbers.formatDecimal(product.price, 1, 2)} + ' đ'"></p>
+            <p class="text-muted small mb-2"><span class="text-secondary">Tồn kho:</span> <span th:text="${product.stock}"></span></p>
+            <p class="text-muted small mb-2" th:if="${product.category != null}">
+                <span class="text-secondary">Danh mục:</span> <span th:text="${product.category.name}"></span>
+            </p>
+            <p class="mb-3" th:if="${product.description != null}">
+                <span class="text-secondary small d-block mb-1">Mô tả</span>
+                <span th:text="${product.description}"></span>
+            </p>
+            <form class="d-flex flex-wrap gap-2 align-items-center"
+                  th:action="@{/cart/add/{id}(id=${product.id})}" method="post">
+                <label class="small text-muted mb-0">Số lượng</label>
+                <input type="number" name="quantity" value="1" min="1" th:attr="max=${product.stock}" class="form-control form-control-sm" style="width: 100px;">
+                <button type="submit" class="btn btn-tmdt btn-sm">Thêm vào giỏ</button>
+            </form>
+        </div>
+    </div>
+    <div th:if="${product == null}" class="tmdt-alert tmdt-alert--info">Không tìm thấy sản phẩm.</div>
+    <a class="btn btn-outline-tmdt-muted btn-sm mt-3" th:href="@{/products}">← Danh sách</a>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<nav th:fragment="shopNav" class="navbar navbar-expand-lg navbar-tmdt mb-0">
+    <div class="container">
+        <a class="navbar-brand fw-semibold" th:href="@{/}">TMDT Shop</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#shopNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="shopNav">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/}">Trang chủ</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/products}">Sản phẩm</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/cart}">Giỏ hàng</a>
+                </li>
+                <li class="nav-item" th:if="${currentRole == 'ADMIN'}">
+                    <a class="nav-link fw-semibold text-tmdt-accent" th:href="@{/admin/dashboard}">Quản trị</a>
+                </li>
+            </ul>
+            <div class="d-flex align-items-center gap-2 flex-wrap">
+                <th:block th:if="${currentUsername == null}">
+                    <a class="btn btn-outline-tmdt btn-sm" th:href="@{/auth/login}">Đăng nhập</a>
+                    <a class="btn btn-solid-tmdt btn-sm" th:href="@{/auth/register}">Đăng ký</a>
+                </th:block>
+                <th:block th:if="${currentUsername != null}">
+                    <span class="small" style="color: var(--tmdt-muted);">Xin chào,</span>
+                    <span class="small fw-semibold" style="color: var(--tmdt-text);" th:text="${currentUsername}">user</span>
+                    <a class="btn btn-outline-tmdt btn-sm" th:href="@{/auth/logout}">Đăng xuất</a>
+                </th:block>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<nav th:fragment="adminNav" class="navbar navbar-expand-lg navbar-tmdt mb-4">
+    <div class="container-fluid px-4">
+        <span class="navbar-brand fw-semibold">Quản trị</span>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#adminNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="adminNav">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/admin/dashboard}">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/admin/categories}">Danh mục</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/admin/products}">Sản phẩm</a>
+                </li>
+            </ul>
+            <div class="d-flex gap-2">
+                <a class="btn btn-outline-tmdt btn-sm" th:href="@{/}">Về cửa hàng</a>
+                <a class="btn btn-solid-tmdt btn-sm" th:href="@{/auth/logout}">Đăng xuất</a>
+            </div>
+        </div>
+    </div>
+</nav>
+</body>
+</html>
